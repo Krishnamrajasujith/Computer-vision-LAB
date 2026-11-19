@@ -1,0 +1,44 @@
+import cv2
+import urllib.request
+import os
+
+# Download XML automatically
+xml_url = "https://raw.githubusercontent.com/opencv/opencv/4.x/data/haarcascades/haarcascade_frontalface_default.xml"
+
+folder = os.path.dirname(os.path.abspath(__file__))
+xml_path = os.path.join(folder, "haarcascade_frontalface_default.xml")
+
+if not os.path.exists(xml_path):
+    urllib.request.urlretrieve(xml_url, xml_path)
+
+# Load face detector
+face_cascade = cv2.CascadeClassifier(xml_path)
+
+if face_cascade.empty():
+    print("Face detection model not loaded!")
+    exit()
+
+# Read image
+img = cv2.imread(os.path.join(folder, "image.jpg"))
+
+if img is None:
+    print("Image not found! Keep image.jpg in the same folder.")
+    exit()
+
+# Convert to grayscale
+gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+
+# Detect faces
+faces = face_cascade.detectMultiScale(
+    gray, 1.1, 5
+)
+
+# Draw rectangles
+for (x, y, w, h) in faces:
+    cv2.rectangle(img, (x, y), (x+w, y+h), (0, 255, 0), 2)
+
+print("Number of faces:", len(faces))
+
+cv2.imshow("Face Detection", img)
+cv2.waitKey(0)
+cv2.destroyAllWindows()

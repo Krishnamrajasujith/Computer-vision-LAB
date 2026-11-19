@@ -1,0 +1,23 @@
+import cv2
+
+def reverse_video(video):
+    cap = cv2.VideoCapture(video)
+    frames = []
+
+    while True:
+        ret, frame = cap.read()
+        if not ret:
+            break
+        frames.append(frame)
+
+    cap.release()
+
+    frames.reverse()
+
+    for frame in frames:
+        cv2.imshow('Reverse Video', frame)
+        cv2.waitKey(30)
+
+    cv2.destroyAllWindows()
+
+reverse_video('t.mp4')

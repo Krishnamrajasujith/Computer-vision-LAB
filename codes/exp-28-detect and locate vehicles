@@ -1,0 +1,37 @@
+
+import cv2
+
+# Load car cascade
+cascade = cv2.CascadeClassifier("cars.xml")
+
+if cascade.empty():
+    print("Error: cars.xml not found!")
+    exit()
+
+# Read input image
+image = cv2.imread("cars.jpg")
+
+if image is None:
+    print("Error: cars.jpg not found!")
+    exit()
+
+# Convert to grayscale
+gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+
+# Detect vehicles
+vehicles = cascade.detectMultiScale(
+    gray,
+    scaleFactor=1.1,
+    minNeighbors=5
+)
+
+# Draw rectangles
+for (x, y, w, h) in vehicles:
+    cv2.rectangle(image, (x, y), (x+w, y+h), (0, 255, 0), 2)
+
+print("Vehicles detected:", len(vehicles))
+
+# Display output
+cv2.imshow("Vehicle Detection", image)
+cv2.waitKey(0)
+cv2.destroyAllWindows()

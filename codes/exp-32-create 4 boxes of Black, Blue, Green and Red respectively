@@ -1,0 +1,20 @@
+import cv2
+import numpy as np
+
+width = 500
+height = 500
+
+img = np.ones((height, width, 3), dtype=np.uint8) * 255
+
+box_w = width // 10
+box_h = height // 10
+
+# Four corner boxes
+img[0:box_h, 0:box_w] = (0, 0, 0)             # Black
+img[0:box_h, -box_w:] = (255, 0, 0)           # Blue
+img[-box_h:, 0:box_w] = (0, 255, 0)           # Green
+img[-box_h:, -box_w:] = (0, 0, 255)           # Red
+
+cv2.imshow("Four Corner Boxes", img)
+cv2.waitKey(0)
+cv2.destroyAllWindows()

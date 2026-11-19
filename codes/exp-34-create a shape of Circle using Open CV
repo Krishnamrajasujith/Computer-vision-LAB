@@ -1,0 +1,14 @@
+import cv2
+import numpy as np
+
+# Create white image
+img = np.ones((500, 500, 3), dtype=np.uint8) * 255
+
+# Draw circle
+cv2.circle(img, (250, 250), 100, (0, 0, 255), 3)
+
+# Display image
+cv2.imshow("Experiment 34 - Circle", img)
+
+cv2.waitKey(0)
+cv2.destroyAllWindows()
